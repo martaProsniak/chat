@@ -16,10 +16,16 @@ const Chat = ({ location }) => {
 
     socket = io(ENDPOINT);
 
+    socket.on("newUser", ({ user }) => {
+      console.log(user);
+    });
+
+    socket.on("error", ({ error }) => {
+      console.log(error);
+    });
+
     setName(name);
     setRoom(room);
-
-    console.log(socket);
 
     socket.emit("join", { name, room });
 
