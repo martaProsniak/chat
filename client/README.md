@@ -1,3 +1,7 @@
+# Chat application
+
+Frontend for chat application created with React and socket.io
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
