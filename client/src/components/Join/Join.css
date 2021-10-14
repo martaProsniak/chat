@@ -31,6 +31,15 @@ html, body {
   width: 100%;
 }
 
+.error {
+  background-color: #fff;
+  color: #1A1A1D;
+  padding: 10px;
+  font-size: 12px;
+  border: solid 2px rgb(209, 14, 112);
+  border-radius: 5px;
+}
+
 .heading {
   color: white;
   font-size: 2.5em;
@@ -52,6 +61,14 @@ html, body {
 
 .mt-20 {
   margin-top: 20px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.dB {
+  display: block;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {

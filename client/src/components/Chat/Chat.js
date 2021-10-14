@@ -6,7 +6,7 @@ import "./Chat.css";
 
 let socket;
 
-const Chat = ({ location }) => {
+const Chat = ({location, history}) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const ENDPOINT = "localhost:5000";
@@ -16,12 +16,9 @@ const Chat = ({ location }) => {
 
     socket = io(ENDPOINT);
 
-    socket.on("newUser", ({ user }) => {
-      console.log(user);
-    });
-
     socket.on("error", ({ error }) => {
       console.log(error);
+      history.replace(`/?name=${error.name}&room=${error.room}`);
     });
 
     setName(name);
@@ -29,12 +26,16 @@ const Chat = ({ location }) => {
 
     socket.emit("join", { name, room });
 
+    socket.on("message", ({ text }) => {
+      console.log(text);
+    });
+
     return () => {
-      socket.emit("disconnect");
+      socket.emit("disconnected");
 
       socket.off();
     };
-  }, [ENDPOINT, location.search]);
+  }, [ENDPOINT, location.search, history]);
   return <h1>Chat</h1>;
 };
 

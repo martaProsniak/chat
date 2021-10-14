@@ -1,15 +1,15 @@
 const users = [];
 
 const addUser = ({id, name, room}) => {
-  name = name.trim().toLowerCase();
-  room = room.trim().toLowerCase();
+  name = name?.trim()?.toLowerCase();
+  room = room?.trim()?.toLowerCase();
 
   const existingUser = users.find(
     (user) => user.name === name && user.room === room
   );
 
-  if (!name || !room) return { error: "Username and room are required." };
-  if (existingUser) return { error: "Username is taken." };
+  if (!name || !room) return { error: { text: "Username and room are required." } };
+  if (existingUser) return { error: { text: `Username is taken.`, name, room } };
 
   const user = { id, name, room };
 
