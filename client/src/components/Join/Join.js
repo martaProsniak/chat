@@ -5,15 +5,13 @@ import queryString from "query-string";
 import "./Join.css";
 
 const Join = ({location}) => {
-  const { name, room } = queryString.parse(location.search);
+  const { name, room, error } = queryString.parse(location.search);
   const [_name, set_Name] = useState("");
   const [_room, set_Room] = useState("");
-  const [queryRoom, setQueryRoom] = useState("");
   
   useEffect(() => {
     if (room) {
       set_Room(room);
-      setQueryRoom(room);
     }
   }, [location.search, room])
 
@@ -55,9 +53,16 @@ const Join = ({location}) => {
         {name && (
           <p className="error mt-20">
             <span>
-              User {name} is already chatting in the room {queryRoom}.
+              User {name} is already chatting in the room {room}.
             </span>
             <span className="mt-10 dB">Pick another name or another room.</span>
+          </p>
+        )}
+        {error && (
+          <p className="error mt-20">
+            <span>
+              Username and room required.
+            </span>
           </p>
         )}
       </div>

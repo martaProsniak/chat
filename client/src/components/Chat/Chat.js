@@ -17,8 +17,12 @@ const Chat = ({location, history}) => {
     socket = io(ENDPOINT);
 
     socket.on("error", ({ error }) => {
-      console.log(error);
-      history.replace(`/?name=${error.name}&room=${error.room}`);
+      if (error.name && error.room) {
+        history.replace(`/?name=${error.name}&room=${error.room}`);
+      } else {
+        history.replace(`/?error=noData`);
+      }
+      
     });
 
     setName(name);
