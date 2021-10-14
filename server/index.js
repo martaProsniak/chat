@@ -33,14 +33,16 @@ io.on("connection", (socket) => {
     socket.join(user.room);
   });
 
-  socket.on('sendMessage', (message) => {
+  socket.on('sendMessage', (message, callback) => {
     const user = getUser(socket.id);
 
     io.to(user.room).emit('message', { user: user.name, text: message });
+
+    callback();
   })
 
-  socket.on("disconnected", () => {
-    console.log("User disconnected!");
+  socket.on("disconnect", () => {
+    console.log("User disconnected!")
   });
 });
 
