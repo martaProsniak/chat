@@ -14,7 +14,6 @@ const io = socketIo(server, { cors: { origin: "*" } });
 
 io.on("connection", (socket) => {
   socket.on("join", ({ name, room }) => {
-    console.log(name, room);
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if (error) {
@@ -31,6 +30,11 @@ io.on("connection", (socket) => {
       .emit("message", { user: "admin", text: `${user.name} has joined` });
 
     socket.join(user.room);
+
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
   });
 
   socket.on("sendMessage", (message, callback) => {
@@ -46,6 +50,10 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("message", {
         user: "admin",
         text: `${user.name} has left`,
+      });
+      io.to(user.room).emit("roomData", {
+        room: user.room,
+        users: getUsersInRoom(user.room),
       });
     }
   });
