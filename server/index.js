@@ -35,7 +35,6 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
-
     io.to(user.room).emit("message", { user: user.name, text: message });
 
     callback();
@@ -43,7 +42,6 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
-    console.log(user);
     if (user) {
       socket.broadcast
         .to(user.room)
