@@ -16,13 +16,14 @@ app.use(cors());
 app.use(router);
 
 io.on("connection", (socket) => {
-  socket.on("join", ({ name, room }) => {
+  socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if (error) {
-      socket.emit("error", { error });
-      return;
+      return callback(error);
     }
+
+    socket.join(user.room);
 
     socket.emit("message", {
       user: "admin",
@@ -38,6 +39,8 @@ io.on("connection", (socket) => {
       room: user.room,
       users: getUsersInRoom(user.room),
     });
+
+    callback();
   });
 
   socket.on("sendMessage", (message, callback) => {

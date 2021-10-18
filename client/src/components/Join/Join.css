@@ -32,12 +32,18 @@ html, body {
 }
 
 .error {
-  background-color: #fff;
-  color: #1A1A1D;
-  padding: 10px;
-  font-size: 12px;
-  border: solid 2px rgb(209, 14, 112);
-  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.error span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.errorIcon {
+  margin-right: 5%;
+    vertical-align: middle;
 }
 
 .heading {

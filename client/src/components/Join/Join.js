@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
+import errorIcon from "../../icons/errorIcon.png";
 
 import "./Join.css";
 
-const Join = ({location}) => {
+const Join = ({ location }) => {
   const { name, room, error } = queryString.parse(location.search);
   const [_name, set_Name] = useState("");
   const [_room, set_Room] = useState("");
-  
+
   useEffect(() => {
     if (room) {
       set_Room(room);
     }
-  }, [location.search, room])
+
+    return () => {
+      set_Room("");
+    };
+  }, [location.search, room]);
 
   return (
     <div className="joinOuterContainer">
@@ -60,9 +65,8 @@ const Join = ({location}) => {
         )}
         {error && (
           <p className="error mt-20">
-            <span>
-              Username and room required.
-            </span>
+            <img className="errorIcon" src={errorIcon} alt="Error" />
+            <span>{error}</span>
           </p>
         )}
       </div>

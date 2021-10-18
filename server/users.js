@@ -8,8 +8,8 @@ const addUser = ({id, name, room}) => {
     (user) => user.name === name && user.room === room
   );
 
-  if (!name || !room) return { error: { text: "Username and room are required." } };
-  if (existingUser) return { error: { text: `Username is taken.`, name, room } };
+if (!name || !room) return { error: "Username and room are required." };
+if (existingUser) return { error: "Username is taken." };
 
   const user = { id, name, room };
 

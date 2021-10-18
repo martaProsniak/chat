@@ -1,25 +1,27 @@
 import React from "react";
 
-import "../Messages/Message/Message.css";
+import onlineIcon from "../../icons/onlineIcon.png";
 
-const TextContainer = ({ users, room }) => {
-  return (
-    <div className="messageContainer justifyStart">
-      <div className="messageBox backgroundLight">
-        <p className="messageText colorDark pl-10">
-          Users in the room {room}
-          {": "}
-          {users.map((user, i) => (
-            <span key={i}>
-              {user.name}
-              {i !== users.length - 1 ? ", " : ""}
-            </span>
-          ))}
-        </p>
+import "./TextContainer.css";
+
+const TextContainer = ({ users }) => (
+  <div className="textContainer">
+    {users ? (
+      <div>
+        <h1>People currently chatting:</h1>
+        <div className="activeContainer">
+          <h2>
+            {users.map(({ name }) => (
+              <div key={name} className="activeItem">
+                {name}
+                <img alt="Online Icon" src={onlineIcon} />
+              </div>
+            ))}
+          </h2>
+        </div>
       </div>
-      <p className="sentText pl-10">admin</p>
-    </div>
-  );
-};
+    ) : null}
+  </div>
+);
 
 export default TextContainer;

@@ -4,6 +4,8 @@ import queryString from "query-string";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 import Messages from "../Messages/Messages";
+import TextContainer from "../TextContainer/TextContainer";
+
 
 import "./Chat.css";
 
@@ -15,25 +17,20 @@ const Chat = ({ location, history }) => {
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const ENDPOINT = "https://joinchatroom.herokuapp.com";
+  const ENDPOINT = process.env.NODE_ENV === 'production' ? "https://joinchatroom.herokuapp.com" : 'localhost:5000';
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
-
     socket = io(ENDPOINT);
-
-    socket.on("error", ({ error }) => {
-      if (error.name && error.room) {
-        history.replace(`/?name=${error.name}&room=${error.room}`);
-      } else {
-        history.replace(`/?error=noData`);
-      }
-    });
 
     setName(name);
     setRoom(room);
 
-    socket.emit("join", { name, room });
+    socket.emit("join", { name, room }, (error) => {
+      if (error) {
+        history.replace(`/?error=${error}`);
+      }
+    });
 
     return () => {
       socket.off();
@@ -62,13 +59,14 @@ const Chat = ({ location, history }) => {
     <div className="outerContainer">
       <div className="container">
         <InfoBar room={room}></InfoBar>
-        <Messages messages={messages} name={name} users={users} room={room}/>
+        <Messages messages={messages} name={name} />
         <Input
           message={message}
           setMessage={setMessage}
           sendMessage={sendMessage}
         />
       </div>
+      <TextContainer users={users}/>
     </div>
   );
 };
